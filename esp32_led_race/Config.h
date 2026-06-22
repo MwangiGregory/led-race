@@ -8,6 +8,10 @@
  * @brief Global system configurations, pin assignments, physics constants, and game states.
  */
 
+// WiFi Access Point Settings
+#define WIFI_AP_SSID        "ESP32-LEDRaceGrid"
+#define WIFI_AP_PASS        "flagtoflag"
+
 // System & Timing
 #define CORE_NETWORKING     0  // Core 0 handles Webserver & LCD UI
 #define CORE_GAME_ENGINE    1  // Core 1 handles Physics & NeoPixel rendering

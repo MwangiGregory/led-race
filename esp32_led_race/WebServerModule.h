@@ -454,7 +454,7 @@ public:
      * @brief Configures WiFi Access Point mode and starts the web server and WebSocket endpoint.
      */
     void begin() {
-        WiFi.softAP("ESP32-LEDRaceGrid", "flagtoflag");
+        WiFi.softAP(WIFI_AP_SSID, WIFI_AP_PASS);
         SYS_LOG("[Network] Hotspot active. Connect to http://%s\n", WiFi.softAPIP().toString().c_str());
 
         _ws.onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len){
