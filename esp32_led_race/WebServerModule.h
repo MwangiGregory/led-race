@@ -278,6 +278,10 @@ private:
                     <div id="track-len" class="stat-value">5m</div>
                 </div>
                 <div class="stat-box">
+                    <div class="stat-label">Difficulty</div>
+                    <div id="difficulty" class="stat-value">Medium</div>
+                </div>
+                <div class="stat-box">
                     <div class="stat-label">Fastest Lap Record</div>
                     <div id="high-score" class="stat-value">--</div>
                 </div>
@@ -390,6 +394,16 @@ private:
 
                 // 2. Update Track Metrics & High Score
                 document.getElementById("track-len").innerText = data.trackLen + "m";
+                
+                var diffStr = "Medium";
+                switch(data.difficulty) {
+                    case 0: diffStr = "Easy"; break;
+                    case 1: diffStr = "Medium"; break;
+                    case 2: diffStr = "Hard"; break;
+                    case 3: diffStr = "Very Hard"; break;
+                }
+                document.getElementById("difficulty").innerText = diffStr;
+
                 document.getElementById("high-score").innerText = (data.highScore > 900) ? "--" : data.highScore.toFixed(2) + "s";
 
                 // 3. Handle Winner Banner
@@ -415,7 +429,10 @@ private:
                         document.getElementById(`p${i}-spd`).innerText = pData.spd.toFixed(1);
                         
                         // Progress Calculation
-                        var progressPct = (pData.px / numLEDs) * 100;
+                        var totalLeds = numLEDs * data.maxLaps;
+                        var progressPct = (pData.pos / totalLeds) * 100;
+                        if (progressPct > 100) progressPct = 100;
+                        if (progressPct < 0) progressPct = 0;
                         document.getElementById(`p${i}-progress`).style.width = progressPct + "%";
                         
                         // Reset styling
@@ -491,6 +508,8 @@ public:
         jsonPayload += "\"state\":" + String((int)state) + ",";
         jsonPayload += "\"trackLen\":" + String(physics.getTrackLengthMeters()) + ",";
         jsonPayload += "\"trackLeds\":" + String(physics.getTrackLength()) + ",";
+        jsonPayload += "\"difficulty\":" + String(physics.getDifficulty()) + ",";
+        jsonPayload += "\"maxLaps\":" + String(physics.getMaxLaps()) + ",";
         jsonPayload += "\"activePlayers\":" + String(physics.getActivePlayers()) + ",";
         jsonPayload += "\"leader\":" + String(physics.getLeaderId()) + ",";
         jsonPayload += "\"winner\":" + String((int)winnerId) + ",";
@@ -504,7 +523,8 @@ public:
             jsonPayload += "{";
             jsonPayload += "\"lap\":" + String(car.currentLap) + ",";
             jsonPayload += "\"spd\":" + String(car.speed, 2) + ",";
-            jsonPayload += "\"px\":" + String(physics.getCarTrackPixelIndex(i));
+            jsonPayload += "\"px\":" + String(physics.getCarTrackPixelIndex(i)) + ",";
+            jsonPayload += "\"pos\":" + String(car.position, 2);
             jsonPayload += "}";
             if (i < activeCount - 1) jsonPayload += ",";
         }
