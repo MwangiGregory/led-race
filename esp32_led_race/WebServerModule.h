@@ -265,7 +265,7 @@ private:
         </style>
     </head>
     <body>
-        <h1>🏎️ Live Telemetry Dashboard</h1>
+        <h1> Live Telemetry Dashboard</h1>
         
         <div class="hud-container">
             <div class="stats-grid">
@@ -283,7 +283,7 @@ private:
                 </div>
             </div>
             <div id="winner-banner" style="display: none; text-align: center;">
-                <h2 style="color: var(--gold); margin: 0; font-size: 1.35rem; text-transform: uppercase;">🏆 WINNER TIME: <span id="win-time">--</span>s 🏆</h2>
+                <h2 style="color: var(--gold); margin: 0; font-size: 1.35rem; text-transform: uppercase;">WINNER TIME: <span id="win-time">--</span>s</h2>
             </div>
         </div>
 
@@ -294,8 +294,8 @@ private:
                     <div class="player-info">
                         <span class="player-indicator"></span>
                         <span>Player 1 (Blue)</span>
-                        <span class="leader-badge">👑 Lead</span>
-                        <span class="winner-badge">🏆 Winner</span>
+                        <span class="leader-badge">Lead</span>
+                        <span class="winner-badge">Winner</span>
                     </div>
                     <div class="player-stats">
                         <div class="stat-item">Lap <span id="p0-lap">0</span></div>
@@ -313,8 +313,8 @@ private:
                     <div class="player-info">
                         <span class="player-indicator"></span>
                         <span>Player 2 (Red)</span>
-                        <span class="leader-badge">👑 Lead</span>
-                        <span class="winner-badge">🏆 Winner</span>
+                        <span class="leader-badge">Lead</span>
+                        <span class="winner-badge">Winner</span>
                     </div>
                     <div class="player-stats">
                         <div class="stat-item">Lap <span id="p1-lap">0</span></div>
@@ -332,8 +332,8 @@ private:
                     <div class="player-info">
                         <span class="player-indicator"></span>
                         <span>Player 3 (Green)</span>
-                        <span class="leader-badge">👑 Lead</span>
-                        <span class="winner-badge">🏆 Winner</span>
+                        <span class="leader-badge">Lead</span>
+                        <span class="winner-badge">Winner</span>
                     </div>
                     <div class="player-stats">
                         <div class="stat-item">Lap <span id="p2-lap">0</span></div>
@@ -351,8 +351,8 @@ private:
                     <div class="player-info">
                         <span class="player-indicator"></span>
                         <span>Player 4 (Yellow)</span>
-                        <span class="leader-badge">👑 Lead</span>
-                        <span class="winner-badge">🏆 Winner</span>
+                        <span class="leader-badge">Lead</span>
+                        <span class="winner-badge">Winner</span>
                     </div>
                     <div class="player-stats">
                         <div class="stat-item">Lap <span id="p3-lap">0</span></div>
