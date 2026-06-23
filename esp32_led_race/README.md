@@ -1,8 +1,46 @@
 # 🏎️ Open LED Race v2
 
-Open LED Race v2 is an interactive physical slot-car style racing game powered by an ESP32 microcontroller, addressable WS2812B NeoPixel strips, a character LCD, and a real-time web telemetry dashboard. 
+## 🔌 Hardware Specifications & Wiring Guide
 
-Players accelerate their virtual "cars" (represented by colored LED segments with lap-expanding tails) by clicking physical throttle buttons. The system runs real-time physics calculations (friction, drag, and slope gravity) and streams telemetry metrics to browser dashboards over WebSockets.
+Below is the detailed specification of the components used, how they are wired up, and their pin mappings.
+
+### 1. Component Specifications & Wiring Details
+
+*   **Adafruit esp32 feather v2(hosts an esp32-s3 mcu)**
+*   **WS2812B NeoPixel LED Strip**
+*   **3 Buttons tactile Player Throttle Buttons**:
+    *   **Wiring**: No external resistors are required.
+*   **Tactile Menu Navigation Buttons (UP, SELECT, DOWN)**:
+        **Wiring**: No external resistors are required.
+*   **I2C Character LCD Display (20x4)**:
+    *   **Wiring**: Connect SDA to `GPIO 22` and SCL to `GPIO 20`. Power the LCD module (with standard I2C backpack) from the 5V rail.
+*   **Status RGB LED (Common Cathode)**:
+    *   **Wiring**:
+        *   **Common Cathode Pin**: Connected directly to Ground (GND) through a 330ohm resistor. Since the firmware only always turns on one led at a time.
+        *   **Red Anode Pin**: Connected to `GPIO 25`
+        *   **Green Anode Pin**: Connected to `GPIO 4`
+        *   **Blue Anode Pin**: Connected to `GPIO 27`
+---
+
+### 2. Pinout Mappings
+
+Ensure all components share a **common ground (GND)** connection.
+
+| Component | Device Connection | ESP32 GPIO Pin | Description |
+| :--- | :--- | :--- | :--- |
+| **NeoPixel Strip** | DIN (Data In) | `GPIO 12` | Data output to 74AHCT125 level shifter |
+| **Player 1 Throttle** | BUTTON 1 | `GPIO 14` | Input (internal pullup) for Blue Player |
+| **Player 2 Throttle** | BUTTON 2 | `GPIO 32` | Input (internal pullup) for Red Player |
+| **Player 3 Throttle** | BUTTON 3 | `GPIO 15` | Input (internal pullup) for Green Player |
+| **Player 4 Throttle** | BUTTON 4 | `GPIO 26` | Input (internal pullup) for Yellow Player |
+| **Menu UP Button** | UP | `GPIO 5` | Input (internal pullup) for menu scrolling |
+| **Menu SELECT Button**| SELECT | `GPIO 19` | Input (internal pullup) for menu select |
+| **Menu DOWN Button**  | DOWN | `GPIO 21` | Input (internal pullup) for menu scrolling |
+| **I2C LCD Display** | SDA | `GPIO 22` | I2C Serial Data line |
+| **I2C LCD Display** | SCL | `GPIO 20` | I2C Serial Clock line |
+| **RGB Status LED** | RED Pin | `GPIO 25` | Output red channel |
+| **RGB Status LED** | GREEN Pin | `GPIO 4` | Output green channel |
+| **RGB Status LED** | BLUE Pin | `GPIO 27` | Output blue channel |
 
 ---
 
@@ -19,33 +57,6 @@ This responsive dashboard shows real-time progress bars, speeds, current laps, h
 Watch a video demonstration showing how to navigate the 6-item scroll settings menu (Laps, Track Length, Difficulty, Show Hills, Players, Save & Exit) and trigger the countdown start using the physical control buttons:
 ![LCD Menu Navigation Video](docs/videos/lcd_demo.mp4)
 *(Save a short demo video of your LCD setup at `docs/videos/lcd_demo.mp4` to play it here)*
-
----
-
-## 🛠️ Hardware Requirements & Pinout
-
-### Mappings (Adafruit Feather ESP32 V2 / Standard ESP32)
-Ensure all devices share a common ground reference.
-
-| Component | Device Pin | ESP32 GPIO | Description |
-| :--- | :--- | :--- | :--- |
-| **NeoPixel Strip** | DIN (Data In) | `GPIO 12` | Controls up to 150 WS2812B LEDs (Default 29 for local test) |
-| **Player 1 Throttle** | BUTTON 1 | `GPIO 14` | Edge-triggered pullup button for Player 1 (Red) |
-| **Player 2 Throttle** | BUTTON 2 | `GPIO 32` | Edge-triggered pullup button for Player 2 (Blue) |
-| **Player 3 Throttle** | BUTTON 3 | `GPIO 15` | Edge-triggered pullup button for Player 3 (Green) |
-| **Player 4 Throttle** | BUTTON 4 | `GPIO 26` | Edge-triggered pullup button for Player 4 (Yellow) |
-| **Menu Navigation UP** | UP | `GPIO 5` | Polled pullup menu navigation button |
-| **Menu Select** | SELECT | `GPIO 19` | Polled pullup menu item select button |
-| **Menu Navigation DOWN** | DOWN | `GPIO 21` | Polled pullup menu navigation button |
-| **I2C LCD Display** | SDA | `GPIO 22` | Data line for I2C LCD character screen |
-| **I2C LCD Display** | SCL | `GPIO 20` | Clock line for I2C LCD character screen |
-| **Status RGB LED** | RED | `GPIO 25` | Output red pin for status indicators |
-| **Status RGB LED** | GREEN | `GPIO 4` | Output green pin for status indicators |
-| **Status RGB LED** | BLUE | `GPIO 27` | Output blue pin for status indicators |
-
-> [!IMPORTANT]
-> **Electrical Safety Notice:**
-> WS2812B LEDs operate on a 5V logic signal, whereas the ESP32 outputs 3.3V. It is highly recommended to use a **74AHCT125 High-Speed Level Shifter** to convert the 3.3V data signal of `GPIO 12` to 5.0V. Connecting 3.3V directly to the strip can cause random white flashes or signal glitches.
 
 ---
 
