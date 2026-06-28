@@ -20,10 +20,12 @@ To keep the build simple and breadboard-friendly, this mapping **only uses the 1
 *   **Protection Resistor:** Add a **330Ω to 470Ω resistor** in series on the data line before the first LED.
 *   **Power Capacitor:** Connect a **1000 µF capacitor** across the 5V power rails close to the strip.
 
-### 2. Player Throttle Buttons (x3)
+### 2. Player Throttle Buttons (x4)
 *   **Active-Low Logic:** Connect tactile push buttons directly between their respective GPIO pins and Ground (GND).
 *   **Internal Pull-Up:** The firmware enables internal `INPUT_PULLUP` resistors, meaning pins float high (`HIGH`) and register a press when pulled low (`LOW`).
-*   **Strapping Pin Warning:** **GPIO 2** is a strapping pin (must be high/floating during boot). Since normally open buttons leave the pin floating until pressed, this setup is safe to boot as long as the Player 3 button is not held down during power-up.
+*   **Strapping & Onboard LED Pins:** 
+    *   **GPIO 2 (Player 3):** Strapping pin (must be high/floating during boot). Since normally open buttons leave the pin floating until pressed, this setup is safe to boot as long as the button is not held down during power-up.
+    *   **GPIO 8 (Player 4):** Connected to the onboard blue status LED (Active-Low) and serves as a boot strapping pin. Using it for Player 4 is safe as long as the button is not held during boot. When the player clicks this button, the onboard blue LED will flash as visual tactile feedback!
 
 ### 3. Menu Navigation Buttons (x3)
 *   **Active-Low Logic:** Connect UP, SELECT, and DOWN tactile switches between their respective GPIOs and GND.
@@ -37,7 +39,7 @@ To keep the build simple and breadboard-friendly, this mapping **only uses the 1
 *   **Wiring**: 
     *   Connect the **Common Cathode** pin to Ground (GND) through a single **330Ω resistor**. (Since the firmware only activates one color channel at any given time, a single resistor on the cathode is sufficient).
     *   Connect the Red, Green, and Blue anodes directly to their respective GPIO pins.
-*   **Onboard Blue LED Note:** **GPIO 8** is connected to the built-in status LED on the Super Mini board (Active-Low). We avoid using GPIO 8 for the external RGB LED to prevent flashing conflicts.
+*   **Onboard LED Coexistence:** The external RGB LED status lights will coexist with the onboard blue LED. Since the onboard LED is on `GPIO 8` (Player 4 button), it will only flash when Player 4 drives, completely avoiding interference with the RGB status signaling.
 
 ---
 
@@ -62,7 +64,7 @@ Ensure all components share a **common ground (GND)** connection.
 | **10** | `GPIO 10` | **NeoPixel Strip DIN** | NeoPixel Data Output |
 | **20** | `GPIO 20` | **RGB LED (Green Anode)** | Status LED Green control pin |
 | **21** | `GPIO 21` | **RGB LED (Blue Anode)** | Status LED Blue control pin |
-| **8** | `GPIO 8` | *Unused (Onboard Blue LED)* | Internal active-low status indicator |
+| **8** | `GPIO 8` | **Player 4 Button (Yellow)** | Throttle input (internal pullup) - *Onboard status LED & strapping pin (keep open at boot)* |
 
 ---
 
