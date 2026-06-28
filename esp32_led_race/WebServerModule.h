@@ -290,6 +290,9 @@ private:
             <div id="winner-banner" style="display: none; text-align: center;">
                 <h2 style="color: var(--gold); margin: 0; font-size: 1.35rem; text-transform: uppercase;">WINNER TIME: <span id="win-time">--</span>s</h2>
             </div>
+            <div id="instruction-box" style="margin-top: 15px; text-align: center; font-size: 0.95rem; color: var(--text-secondary); border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 15px; display: none;">
+                Press the physical <strong>SELECT</strong> button or <strong>any player button</strong> to start the countdown!
+            </div>
         </div>
 
         <div class="players-grid">
@@ -407,13 +410,20 @@ private:
 
                 document.getElementById("high-score").innerText = (data.highScore > 900) ? "--" : data.highScore.toFixed(2) + "s";
 
-                // 3. Handle Winner Banner
+                // 3. Handle Winner Banner & Standby Instructions
                 var bannerEl = document.getElementById("winner-banner");
                 if (data.state === 3 && data.winner !== 255) {
                     document.getElementById("win-time").innerText = data.winnerTime.toFixed(2);
                     bannerEl.style.display = "block";
                 } else {
                     bannerEl.style.display = "none";
+                }
+
+                var instructionEl = document.getElementById("instruction-box");
+                if (data.state === 0) { // STATE_STANDBY
+                    instructionEl.style.display = "block";
+                } else {
+                    instructionEl.style.display = "none";
                 }
 
                 // 4. Update Player Cards
