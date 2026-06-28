@@ -3,6 +3,7 @@
 
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
+#include <ESPmDNS.h>
 #include "Config.h"
 #include "PhysicsEngine.h"
 #include "Logging.h"
@@ -473,6 +474,13 @@ public:
     void begin() {
         WiFi.softAP(WIFI_AP_SSID, WIFI_AP_PASS);
         SYS_LOG("[Network] Hotspot active. Connect to http://%s\n", WiFi.softAPIP().toString().c_str());
+
+        if (MDNS.begin("ledrace")) {
+            SYS_LOG("[Network] mDNS responder started. Access via http://ledrace.local\n");
+            MDNS.addService("http", "tcp", 80);
+        } else {
+            SYS_LOG("[Network] Error setting up MDNS responder!\n");
+        }
 
         _ws.onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len){
             if (type == WS_EVT_CONNECT) {
