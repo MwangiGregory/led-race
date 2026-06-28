@@ -13,8 +13,14 @@
 #define WIFI_AP_PASS        "flagtoflag"
 
 // System & Timing
+#if CONFIG_FREERTOS_UNICORE || (portNUM_PROCESSORS == 1)
+#define CORE_NETWORKING     0  // Fallback to Core 0 on single-core chips
+#define CORE_GAME_ENGINE    0  // Fallback to Core 0 on single-core chips
+#else
 #define CORE_NETWORKING     0  // Core 0 handles Webserver & LCD UI
 #define CORE_GAME_ENGINE    1  // Core 1 handles Physics & NeoPixel rendering
+#endif
+
 #define PHYSICS_TICK_RATE   30 // Run the physics loop at 30Hz
 #define PHYSICS_PERIOD_MS   (1000 / PHYSICS_TICK_RATE)
 
