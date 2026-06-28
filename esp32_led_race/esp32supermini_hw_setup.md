@@ -62,3 +62,12 @@ When compiling the project for this board:
 2. Select **ESP32C3 Dev Module** (from the ESP32 board package).
 3. Connect your board via USB-C. The ESP32-C3 features an internal USB-CDC controller, meaning it will expose a Serial Port directly without needing an external chip.
 4. Update the pin definitions in `Config.h` to match the table above before compiling and uploading.
+
+---
+
+## 🌐 Accessing the Telemetry Web Dashboard
+1. Connect to the Wi-Fi Hotspot:
+   *   **SSID:** `ESP32-LEDRaceGrid`
+   *   **Password:** `flagtoflag`
+2. Open your browser and navigate to:
+   *   **mDNS URL:** `http://ledrace.local` (or `http://192.168.4.1`)
