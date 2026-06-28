@@ -22,6 +22,8 @@ void vPhysicsEngineTask(void* pvParameters) {
         while (xQueueReceive(queue, &inboundEvent, 0) == pdTRUE) {
             if (gameEngine.getState() == STATE_RACE_ACTIVE) {
                 physics.dispatchThrottle(inboundEvent.playerId);
+            } else if (gameEngine.getState() == STATE_STANDBY) {
+                gameEngine.startCountdown();
             }
         }
 

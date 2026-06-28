@@ -32,7 +32,7 @@
 
 // Player Inputs
 #define TOTAL_PLAYERS       4
-const uint8_t PLAYER_PINS[TOTAL_PLAYERS] = {14, 32, 15, 26};
+const uint8_t PLAYER_PINS[TOTAL_PLAYERS] = {14, 32, 15, 26}; // RED, BLUE, GREEM, YELLOW
 
 // UI Buttons
 #define BTN_UI_UP           5  // Tactical button for scrolling up

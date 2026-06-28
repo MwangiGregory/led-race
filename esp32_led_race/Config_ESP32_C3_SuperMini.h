@@ -32,7 +32,7 @@
 
 // Player Inputs (Mapped to edge-only pins, including GPIO 8 which is also the onboard LED)
 #define TOTAL_PLAYERS       4
-const uint8_t PLAYER_PINS[TOTAL_PLAYERS] = {0, 1, 2, 8}; // GPIO 0 (P1), GPIO 1 (P2), GPIO 2 (P3), GPIO 8 (P4)
+const uint8_t PLAYER_PINS[TOTAL_PLAYERS] = {0, 1, 2, 8}; // GPIO 0 (P1-RED), GPIO 1 (P2 - BLUE), GPIO 2 (P3 - GREEN ), GPIO 8 (P4 - YELLOW)
 
 // UI Buttons
 #define BTN_UI_UP           3  // GPIO 3 on Super Mini
