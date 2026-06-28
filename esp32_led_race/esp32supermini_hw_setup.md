@@ -1,28 +1,15 @@
 # 🔌 ESP32 Super Mini Hardware Setup Guide
 
-This guide details how to construct the **Open LED Race v2** using the highly compact **ESP32-C3 Super Mini** development board. 
-
-To keep the build simple and breadboard-friendly, this mapping **only uses the 16 pins exposed along the edges** of the board, completely avoiding the soldering pads on the underside.
-
----
-
-## 🧠 Hardware Architecture Notes
-
-> [!NOTE]
-> **Single-Core Execution:** The ESP32-C3 is a single-core RISC-V microcontroller. Unlike the dual-core ESP32, FreeRTOS will time-slice all tasks on a single core. The game's modular design (non-blocking scheduler and appropriate task priorities) ensures smooth performance, but they will run concurrently rather than in parallel.
-
----
+The mapping **only uses the 16 pins exposed along the edges** of the board, completely avoiding the soldering pads on the underside.
 
 ## 🛠️ Component Connections & Wiring Details
 
 ### 1. WS2812B NeoPixel LED Strip
 *   **Signal Level Shifter:** Since the LED strip operates on 5V logic and the ESP32-C3 outputs 3.3V, it is recommended to use a level shifter (e.g., **74AHCT125**) between `GPIO 10` and the strip's Data In (DIN) pin.
-*   **Protection Resistor:** Add a **330Ω to 470Ω resistor** in series on the data line before the first LED.
-*   **Power Capacitor:** Connect a **1000 µF capacitor** across the 5V power rails close to the strip.
 
 ### 2. Player Throttle Buttons (x4)
 *   **Active-Low Logic:** Connect tactile push buttons directly between their respective GPIO pins and Ground (GND).
-*   **Internal Pull-Up:** The firmware enables internal `INPUT_PULLUP` resistors, meaning pins float high (`HIGH`) and register a press when pulled low (`LOW`).
+*   **Internal Pull-Up**
 *   **Strapping & Onboard LED Pins:** 
     *   **GPIO 2 (Player 3):** Strapping pin (must be high/floating during boot). Since normally open buttons leave the pin floating until pressed, this setup is safe to boot as long as the button is not held down during power-up.
     *   **GPIO 8 (Player 4):** Connected to the onboard blue status LED (Active-Low) and serves as a boot strapping pin. Using it for Player 4 is safe as long as the button is not held during boot. When the player clicks this button, the onboard blue LED will flash as visual tactile feedback!
@@ -39,7 +26,7 @@ To keep the build simple and breadboard-friendly, this mapping **only uses the 1
 *   **Wiring**: 
     *   Connect the **Common Cathode** pin to Ground (GND) through a single **330Ω resistor**. (Since the firmware only activates one color channel at any given time, a single resistor on the cathode is sufficient).
     *   Connect the Red, Green, and Blue anodes directly to their respective GPIO pins.
-*   **Onboard LED Coexistence:** The external RGB LED status lights will coexist with the onboard blue LED. Since the onboard LED is on `GPIO 8` (Player 4 button), it will only flash when Player 4 drives, completely avoiding interference with the RGB status signaling.
+*   **Onboard LED Coexistence:** Since the onboard LED is on `GPIO 8` (Player 4 button), it will flash when Player 4 drives.
 
 ---
 
