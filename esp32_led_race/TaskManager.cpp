@@ -24,6 +24,10 @@ void vPhysicsEngineTask(void* pvParameters) {
                 physics.dispatchThrottle(inboundEvent.playerId);
             } else if (gameEngine.getState() == STATE_STANDBY) {
                 gameEngine.startCountdown();
+            } else if (gameEngine.getState() == STATE_CELEBRATION) {
+                gameEngine.setState(STATE_STANDBY);
+                xQueueReset(queue);
+                break;
             }
         }
 
