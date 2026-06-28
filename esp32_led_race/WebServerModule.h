@@ -44,7 +44,7 @@ private:
                 background-image: radial-gradient(circle at 50% 20%, #1f2833 0%, #0b0c10 70%);
                 color: var(--text-primary);
                 margin: 0;
-                padding: 20px;
+                padding: 10px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -52,9 +52,9 @@ private:
                 box-sizing: border-box;
             }
             h1 {
-                font-size: 2.3rem;
+                font-size: 1.8rem;
                 font-weight: 800;
-                margin: 10px 0 20px 0;
+                margin: 5px 0 12px 0;
                 text-transform: uppercase;
                 letter-spacing: 2px;
                 background: linear-gradient(90deg, #66fcf1, #45a29e);
@@ -69,10 +69,10 @@ private:
                 backdrop-filter: blur(12px);
                 border: 1px solid rgba(102, 252, 241, 0.2);
                 border-radius: 16px;
-                padding: 20px;
+                padding: 15px;
                 box-shadow: 0 10px 35px rgba(0, 0, 0, 0.55);
                 box-sizing: border-box;
-                margin-bottom: 25px;
+                margin-bottom: 15px;
             }
             .stats-grid {
                 display: grid;
@@ -158,13 +158,13 @@ private:
                 border-radius: 50%;
                 display: inline-block;
             }
-            #pcard-0 .player-indicator { background: #007bff; box-shadow: 0 0 8px #007bff; }
-            #pcard-1 .player-indicator { background: #dc3545; box-shadow: 0 0 8px #dc3545; }
+            #pcard-0 .player-indicator { background: #dc3545; box-shadow: 0 0 8px #dc3545; }
+            #pcard-1 .player-indicator { background: #007bff; box-shadow: 0 0 8px #007bff; }
             #pcard-2 .player-indicator { background: #28a745; box-shadow: 0 0 8px #28a745; }
             #pcard-3 .player-indicator { background: #ffc107; box-shadow: 0 0 8px #ffc107; }
 
-            #pcard-0 { border-left: 5px solid #007bff; }
-            #pcard-1 { border-left: 5px solid #dc3545; }
+            #pcard-0 { border-left: 5px solid #dc3545; }
+            #pcard-1 { border-left: 5px solid #007bff; }
             #pcard-2 { border-left: 5px solid #28a745; }
             #pcard-3 { border-left: 5px solid #ffc107; }
 
@@ -217,8 +217,8 @@ private:
                 border-radius: 10px;
                 transition: width 0.15s ease-out;
             }
-            #pcard-0 .progress-bar { background: #007bff; }
-            #pcard-1 .progress-bar { background: #dc3545; }
+            #pcard-0 .progress-bar { background: #dc3545; }
+            #pcard-1 .progress-bar { background: #007bff; }
             #pcard-2 .progress-bar { background: #28a745; }
             #pcard-3 .progress-bar { background: #ffc107; }
 
@@ -266,14 +266,18 @@ private:
         </style>
     </head>
     <body>
-        <h1> Live Telemetry Dashboard</h1>
+        <h1>Open LED Race</h1>
         
         <div class="hud-container">
+            <div class="status-row" style="display: flex; justify-content: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
+                <div id="status" class="status-badge status-standby" style="font-size: 1rem; padding: 5px 18px;">Standby</div>
+            </div>
+            
+            <div id="countdown-overlay" style="display: none; text-align: center; margin-bottom: 15px;">
+                <div id="countdown-number" style="font-size: 6rem; font-weight: 800; line-height: 1;">3</div>
+            </div>
+
             <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-label">Game Status</div>
-                    <div id="status" class="status-badge status-standby">Standby</div>
-                </div>
                 <div class="stat-box">
                     <div class="stat-label">Track Length</div>
                     <div id="track-len" class="stat-value">5m</div>
@@ -301,7 +305,7 @@ private:
                 <div class="card-row">
                     <div class="player-info">
                         <span class="player-indicator"></span>
-                        <span>Player 1 (Blue)</span>
+                        <span>Player 1 (Red)</span>
                         <span class="leader-badge">Lead</span>
                         <span class="winner-badge">Winner</span>
                     </div>
@@ -320,7 +324,7 @@ private:
                 <div class="card-row">
                     <div class="player-info">
                         <span class="player-indicator"></span>
-                        <span>Player 2 (Red)</span>
+                        <span>Player 2 (Blue)</span>
                         <span class="leader-badge">Lead</span>
                         <span class="winner-badge">Winner</span>
                     </div>
@@ -426,6 +430,33 @@ private:
                     instructionEl.style.display = "none";
                 }
 
+                // Handle Countdown Display
+                var countdownEl = document.getElementById("countdown-overlay");
+                var countdownNumEl = document.getElementById("countdown-number");
+                if (data.state === 1) { // STATE_COUNTDOWN
+                    countdownEl.style.display = "block";
+                    var elapsed = data.countdown;
+                    if (elapsed < 1000) {
+                        countdownNumEl.innerText = "3";
+                        countdownNumEl.style.color = "#ff3333";
+                        countdownNumEl.style.textShadow = "0 0 15px rgba(255, 51, 51, 0.6)";
+                    } else if (elapsed >= 1000 && elapsed < 2000) {
+                        countdownNumEl.innerText = "2";
+                        countdownNumEl.style.color = "#ffaa00";
+                        countdownNumEl.style.textShadow = "0 0 15px rgba(255, 170, 0, 0.6)";
+                    } else if (elapsed >= 2000 && elapsed < 3000) {
+                        countdownNumEl.innerText = "1";
+                        countdownNumEl.style.color = "#ffff33";
+                        countdownNumEl.style.textShadow = "0 0 15px rgba(255, 255, 51, 0.6)";
+                    } else {
+                        countdownNumEl.innerText = "GO!";
+                        countdownNumEl.style.color = "#33ff33";
+                        countdownNumEl.style.textShadow = "0 0 15px rgba(51, 255, 51, 0.6)";
+                    }
+                } else {
+                    countdownEl.style.display = "none";
+                }
+
                 // 4. Update Player Cards
                 var activeCount = data.activePlayers;
                 var numLEDs = data.trackLeds;
@@ -515,7 +546,7 @@ public:
      * @param winnerTime The winner's race time.
      * @param highScore The persistent high score time.
      */
-    void broadcastTelemetry(const PhysicsEngine& physics, GameState state, uint8_t winnerId, float winnerTime, float highScore) {
+    void broadcastTelemetry(const PhysicsEngine& physics, GameState state, uint8_t winnerId, float winnerTime, float highScore, uint32_t countdown = 0) {
         uint32_t now = millis();
         if (now - _lastBroadcastTime < 100) return;
         if (_ws.count() == 0) return;
@@ -528,6 +559,7 @@ public:
         jsonPayload += "\"trackLeds\":" + String(physics.getTrackLength()) + ",";
         jsonPayload += "\"difficulty\":" + String(physics.getDifficulty()) + ",";
         jsonPayload += "\"maxLaps\":" + String(physics.getMaxLaps()) + ",";
+        jsonPayload += "\"countdown\":" + String(countdown) + ",";
         jsonPayload += "\"activePlayers\":" + String(physics.getActivePlayers()) + ",";
         jsonPayload += "\"leader\":" + String(physics.getLeaderId()) + ",";
         jsonPayload += "\"winner\":" + String((int)winnerId) + ",";

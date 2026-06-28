@@ -107,16 +107,16 @@ void vAdminUiTask(void* pvParameters) {
             }
         }
 
-        // Periodically drop timed out WebSocket client sessions
-        webServer.cleanup();
-
-        // Send telemetry payload to active browser connections
-        webServer.broadcastTelemetry(physics, gameEngine.getState(), gameEngine.getWinnerId(), gameEngine.getWinnerTime(), gameEngine.getHighScore());
-
         uint32_t countdownElapsed = 0;
         if (gameEngine.getState() == STATE_COUNTDOWN) {
             countdownElapsed = millis() - gameEngine.getCountdownStartTime();
         }
+
+        // Periodically drop timed out WebSocket client sessions
+        webServer.cleanup();
+
+        // Send telemetry payload to active browser connections
+        webServer.broadcastTelemetry(physics, gameEngine.getState(), gameEngine.getWinnerId(), gameEngine.getWinnerTime(), gameEngine.getHighScore(), countdownElapsed);
 
         // Redraw LCD canvas and update the physical RGB status LED
         uiMenu.updateDisplayCanvas(physics, gameEngine.getState(), uiInput.getCurrentMenuRow(), countdownElapsed);
